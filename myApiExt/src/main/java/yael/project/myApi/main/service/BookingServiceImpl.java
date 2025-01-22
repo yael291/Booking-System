@@ -7,12 +7,15 @@ import yael.project.myApi.main.dao.BookingRepository;
 import yael.project.myApi.main.dao.SeatRepository;
 import yael.project.myApi.main.dao.ShowtimeRepository;
 import yael.project.myApi.main.dto.BookingRequest;
+import yael.project.myApi.main.exception.ResourceNotFoundException;
 import yael.project.myApi.main.model.Booking;
+import yael.project.myApi.main.model.Movie;
 import yael.project.myApi.main.model.Seat;
 import yael.project.myApi.main.model.Showtime;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -41,7 +44,7 @@ public class BookingServiceImpl implements BookingService {
             throw new IllegalArgumentException("Seat is already booked for this showtime.");
         }
 
-        if (showtime.getCurrentBookedSeats() == maxSeats){
+        if (showtime.getCurrentBookedSeats() == maxSeats) {
             throw new RuntimeException("No available seats left for this showtime.");
         }
 
@@ -61,7 +64,7 @@ public class BookingServiceImpl implements BookingService {
 
         //we increment booked seats for this showtime by 1.
         Showtime showtimeToUpdate = showtimeRepository.getOne(showtime.getId());
-        showtimeToUpdate.setCurrentBookedSeats(showtime.getCurrentBookedSeats()+1);
+        showtimeToUpdate.setCurrentBookedSeats(showtime.getCurrentBookedSeats() + 1);
         showtimeRepository.save(showtimeToUpdate);
 
         //booking is saved
@@ -69,7 +72,11 @@ public class BookingServiceImpl implements BookingService {
     }
 
     public List<Booking> getAllBookings() {
-        return bookingRepository.findAll();
+        List<Booking> bookings = bookingRepository.findAll().stream().collect(Collectors.toList());
+        if (bookings != null) {
+            return bookings;
+        } else {
+            throw new ResourceNotFoundException("No bookings found.");
+        }
     }
 }
-

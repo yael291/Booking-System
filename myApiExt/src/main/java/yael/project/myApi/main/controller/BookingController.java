@@ -14,26 +14,17 @@ import yael.project.myApi.main.service.BookingService;
 @RestController
 @RequestMapping("/bookings")
 public class BookingController {
-
     @Autowired
     private BookingService bookingService;
 
     @PostMapping("/book")
     public ResponseEntity<String> bookTicket(@RequestBody BookingRequest bookingRequest) {
-        try {
-            bookingService.bookTicket(bookingRequest);
-            return ResponseEntity.ok("Ticket booked successfully!");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        bookingService.bookTicket(bookingRequest);
+        return ResponseEntity.ok("Ticket booked successfully!");
     }
 
     @GetMapping("/getAll")
     public ResponseEntity<Object> getAllBookings() {
-        try {
-            return ResponseEntity.ok(bookingService.getAllBookings());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok(bookingService.getAllBookings());
     }
 }

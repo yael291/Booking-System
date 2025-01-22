@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yael.project.myApi.main.dao.UserRepository;
+import yael.project.myApi.main.exception.ResourceNotFoundException;
 import yael.project.myApi.main.model.User;
 import yael.project.myApi.main.model.UserSignupRequest;
 
@@ -58,4 +59,10 @@ public class UserService implements UserDetailsService {
                 .build();
     }
 
+    public void checkUserExistsByEmail(String email){
+        Optional<User> userIsExist = repository.findByEmail(email);
+        if (userIsExist.isEmpty()){
+            throw new ResourceNotFoundException("This User isn't signed in.");
+        }
+    }
 }

@@ -29,7 +29,12 @@ public class MoviesServiceImpl implements MoviesService {
 
     @Override
     public Movie addMovie(Movie movie) {
-        return moviesRepository.save(movie);
+        Movie savedMovie = moviesRepository.save(movie);
+        if (savedMovie != null) {
+            return savedMovie;
+        } else {
+            throw new RuntimeException("Unable to save movie with id " + movie.getId());
+        }
     }
 
     @Override
@@ -72,9 +77,11 @@ public class MoviesServiceImpl implements MoviesService {
     }
 
     @Override
-    public Movie getMovieByTitle(String title) {
+    public void isMovieExistByTitle(String title) {
         Movie movie = moviesRepository.findByTitle(title);
-        return movie!=null? movie : null;
+        if (movie != null) {
+            throw new RuntimeException("Movie already exists.");
+        }
     }
 
 

@@ -25,69 +25,35 @@ public class MoviesController {
 
     @PostMapping("/addMovie")
     public ResponseEntity<?> addMovie(@Valid @RequestBody Movie movie) {
-        Movie movieExisting = moviesService.getMovieByTitle(movie.getTitle());
-        if (movieExisting != null) {
-            throw new RuntimeException("Movie already exists.");
-        }
-        try {
-            Movie savedMovie = moviesService.addMovie(movie);
-            if (savedMovie != null) {
-                return ResponseEntity.ok(savedMovie);
-            } else {
-                throw new RuntimeException("Unable to save movie with id " + movie.getId());
-            }
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        moviesService.isMovieExistByTitle(movie.getTitle());
+        return ResponseEntity.ok(moviesService.addMovie(movie));
     }
 
     @PutMapping("/updateMovie/{id}")
     public ResponseEntity<?> updateMovie(@PathVariable Long id, @Valid @RequestBody Movie movieDetails) {
-        try {
-            return ResponseEntity.ok(moviesService.updateMovie(id, movieDetails));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
+        return ResponseEntity.ok(moviesService.updateMovie(id, movieDetails));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getMovieById(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(moviesService.getMovieById(id));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
+        return ResponseEntity.ok(moviesService.getMovieById(id));
     }
 
 
     @GetMapping("/allMovies")
     public ResponseEntity<?> getAvailableMovies() {
-        try {
-            return ResponseEntity.ok(moviesService.getMovies());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok(moviesService.getMovies());
     }
 
     @GetMapping("/genre/{genre}")
     public ResponseEntity<?> getMoviesByGenre(@PathVariable String genre) {
-        try {
-            return ResponseEntity.ok(moviesService.getMoviesByGenre(genre));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok(moviesService.getMoviesByGenre(genre));
     }
 
 
     @DeleteMapping("deleteMovie/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) throws ResourceNotFoundException {
-        try {
-            return ResponseEntity.ok(moviesService.delete(id));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok(moviesService.delete(id));
     }
 
 }

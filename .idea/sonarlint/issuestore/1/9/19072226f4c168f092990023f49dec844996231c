@@ -1,6 +1,0 @@
-
-t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(³ָתÿÿÿÿ
-g
-java:S6207"ERemove this redundant constructor which is the same as a default one.(ע›§סתÿÿÿÿ8˜ױל¥ָ2
-J
-java:S1128"(Remove this unused import 'lombok.Data'.(קם«ÿÿÿÿÿ8ת‹ת¥ָ2

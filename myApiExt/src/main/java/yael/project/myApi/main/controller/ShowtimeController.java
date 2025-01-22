@@ -18,57 +18,36 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/showtimes")
 public class ShowtimeController {
-
     @Autowired
     private ShowtimeService showtimeService;
 
     @PostMapping("/add")
     public ResponseEntity<Object> addShowtime(@RequestBody Showtime showtime) {
-        try {
-            return ResponseEntity.ok(showtimeService.addShowtime(showtime));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok(showtimeService.addShowtime(showtime));
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Object> updateShowtime(@PathVariable Long id, @RequestBody Showtime showtime) {
-        try {
-            Showtime updatedShowtime = showtimeService.updateShowtime(id, showtime);
-            return updatedShowtime != null ? ResponseEntity.ok(updatedShowtime) : ResponseEntity.notFound().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        Showtime updatedShowtime = showtimeService.updateShowtime(id, showtime);
+        return updatedShowtime != null ? ResponseEntity.ok(updatedShowtime) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteShowtime(@PathVariable Long id) {
-        try {
-            if (id == null)
-                return ResponseEntity.badRequest().body("The provided showtime's id is not valid");
-            return ResponseEntity.ok().body("Showtime [" + showtimeService.delete(id) + "] deleted successfully.");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        if (id == null)
+            return ResponseEntity.badRequest().body("The provided showtime's id is not valid");
+        return ResponseEntity.ok().body("Showtime [" + showtimeService.delete(id) + "] deleted successfully.");
+
     }
 
     @GetMapping("/getAll")
     public ResponseEntity<Object> getAllShowtimes() {
-        try {
-            return ResponseEntity.ok(showtimeService.getAllShowtimes());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok(showtimeService.getAllShowtimes());
     }
 
     @GetMapping("/get/{id}")
     public ResponseEntity<Object> getShowtimeById(@PathVariable Long id) {
-        try {
-            Optional<Showtime> showtime = showtimeService.getShowtimeById(id);
-            return ResponseEntity.ok(showtime.get());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
+        Optional<Showtime> showtime = showtimeService.getShowtimeById(id);
+        return ResponseEntity.ok(showtime.get());
     }
 }

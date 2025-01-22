@@ -16,7 +16,7 @@ public interface MoviesService {
 
     Movie getMovieById(Long id);
 
-    Movie getMovieByTitle(String title);
+    void isMovieExistByTitle(String title);
 
     List<Movie> getMoviesByGenre(String genre);
 
