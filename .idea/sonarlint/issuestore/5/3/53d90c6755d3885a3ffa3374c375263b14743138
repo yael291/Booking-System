@@ -1,0 +1,6 @@
+
+J
+java:S54117"(Use a primitive boolean expression here.(á¼ëñøÿÿÿÿ8ŽËâÙÈ2
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(’á‡æ
+o
+java:S6204:"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8ßÃ›ÞÇ2

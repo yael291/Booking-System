@@ -1,0 +1,12 @@
+
+t
+java:S1192'"YDefine a constant instead of duplicating this literal "Movie not found with id " 3 times.(üÉ’¸þÿÿÿÿ
+
+java:S14881"dImmediately return this expression instead of assigning it to the temporary variable "updatedMovie".(æÐŽôùÿÿÿÿ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(’á‡æ
+h
+java:S6204"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ÜúÁ‘
+\
+java:S2153S"FRemove the boxing to "Long"; The argument is already of the same type.(€Ã¡Ú
+_
+java:S1128"DRemove this unused import 'org.springframework.http.ResponseEntity'.(¶¯ø¦úÿÿÿÿ

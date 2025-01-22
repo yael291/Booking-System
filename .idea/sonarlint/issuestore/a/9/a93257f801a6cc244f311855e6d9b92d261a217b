@@ -1,0 +1,6 @@
+
+[	java:S112$"FDefine and throw a dedicated exception instead of using a generic one.(•°¤·
+`	java:S1123"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òιόÿÿÿÿ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(’α‡ζ
+q
+java:S16120"VReplace this lambda with method reference 'ChangeSetPersister.NotFoundException::new'.(€ΐ”ψÿÿÿÿ

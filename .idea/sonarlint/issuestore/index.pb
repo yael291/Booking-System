@@ -289,8 +289,6 @@ n
 >myApiExt/src/main/java/yael/project/myApi/main/model/Seat.java,5\b\5bda656d2b63f8b79da238079af8ecf423175e6e
 v
 FmyApiExt/src/main/java/yael/project/myApi/main/dao/SeatRepository.java,7\1\71f81492f0d8ffc25a90763f19c171bc8c0b707d
-y
-ImyApiExt/src/main/java/yael/project/myApi/main/config/SecurityConfig.java,5\6\569b2fe138665213a1e7b77a3477217c51bd962a
 r
 BmyApiExt/src/main/java/yael/project/myApi/main/model/Showtime.java,2\3\2304c1c40722fd8271241c59432c1d3677770b62
 z

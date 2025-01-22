@@ -37,8 +37,13 @@ public class SecurityConfig {
 //            our public endpoints
                         .requestMatchers(HttpMethod.POST, "/users/signup/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users/login/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/h2-console/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/h2-console/**").permitAll()
+                              //  .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
+                                .requestMatchers(
+                                        "/swagger-ui/**",
+                                        "/v3/api-docs/**",
+                                        "/swagger-resources/**",
+                                        "/webjars/**"
+                                ).permitAll()
                 )
                 .authorizeHttpRequests(request -> request.requestMatchers(new AntPathRequestMatcher("/movies/**"), new AntPathRequestMatcher("/showtimes/**"))
                         .hasAuthority("ROLE_ADMIN"))
