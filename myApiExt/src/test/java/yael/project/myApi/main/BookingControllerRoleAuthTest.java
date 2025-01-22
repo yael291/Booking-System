@@ -32,7 +32,6 @@ import yael.project.myApi.main.dto.LoginResponse;
 import yael.project.myApi.main.model.Movie;
 import yael.project.myApi.main.model.Showtime;
 import yael.project.myApi.main.model.User;
-import yael.project.myApi.main.model.UserSignupRequest;
 import yael.project.myApi.main.service.BookingServiceImpl;
 import yael.project.myApi.main.service.UserService;
 import yael.project.myApi.main.utils.JsonUtils;
@@ -74,15 +73,9 @@ class BookingControllerRoleAuthTest extends TestBase {
     void testSignupLoginAsCustomerCreateBooking_Expected_BookingOk() throws Exception {
         //user as saved in DB(password is hashed in DB)
         User userInDB = new User("dani", "dani@gmail.com", HASHED_PASSWORD, "CUSTOMER");
-        userInDB.setId(1L);
-        //user signup request as CUSTOMER
-        UserSignupRequest userSignupRequest = new UserSignupRequest("dani", "CUSTOMER", "dani@gmail.com", "112233");
-
-        //Execute user signup
-        MvcResult mvcResult = mvcPerformControllerApiCall(SIGNUP_API_URL, authHeader1, userSignupRequest, statusResultMatchers.isCreated());
 
         //Execute user Login
-        MvcResult mvcResultLogin = userLoginProcess(userSignupRequest, userInDB, statusResultMatchers);
+        MvcResult mvcResultLogin = userLoginProcess(userInDB, statusResultMatchers);
 
         //extract user's token from user's login response
         String tokenGenerated = extractTokenFromLoginResp(mvcResultLogin);
@@ -104,15 +97,9 @@ class BookingControllerRoleAuthTest extends TestBase {
     void testSignupLoginAsAdminCreateBooking_Expected_BookingForbidden() throws Exception {
         //user as saved in DB(password is hashed in DB)
         User userInDB = new User("yael", "yael@gmail.com", HASHED_PASSWORD, "ADMIN");
-        userInDB.setId(2L);
-        //signup request as ADMIN
-        UserSignupRequest userSignupRequest = new UserSignupRequest("dani", "ADMIN", "dani@gmail.com", "112233");
-
-        //Execute user signup
-        MvcResult mvcResult = mvcPerformControllerApiCall(SIGNUP_API_URL, authHeader1, userSignupRequest, statusResultMatchers.isCreated());
 
         //Execute user Login
-        MvcResult mvcResultLogin = userLoginProcess(userSignupRequest, userInDB, statusResultMatchers);
+        MvcResult mvcResultLogin = userLoginProcess(userInDB, statusResultMatchers);
 
         //extract user's token from user's login response
         String tokenGenerated = extractTokenFromLoginResp(mvcResultLogin);
@@ -127,12 +114,12 @@ class BookingControllerRoleAuthTest extends TestBase {
 
         //Assert
         String bookingRes = mvcResultBooking.getResponse().getErrorMessage();
-        assertEquals("Access Denied", bookingRes);
+        assertEquals("Forbidden", bookingRes);
     }
 
-    MvcResult userLoginProcess(UserSignupRequest userSignupRequest, User userInDB, StatusResultMatchers statusResultMatchers) throws Exception {
+    MvcResult userLoginProcess(User userInDB, StatusResultMatchers statusResultMatchers) throws Exception {
         // //user login data
-        LoginRequest loginRequest = new LoginRequest(userSignupRequest.email(), "112233"); //user login data
+        LoginRequest loginRequest = new LoginRequest(userInDB.getEmail(), "112233"); //user login data
         //prepare user's authentication+authorization data
         prepareLoginRequestData(loginRequest, userInDB);
 
@@ -140,6 +127,7 @@ class BookingControllerRoleAuthTest extends TestBase {
         MvcResult mvcResultLogin = mvcPerformControllerApiCall(LOGIN_API_URL, authHeader1, loginRequest, statusResultMatchers.isOk());
         return mvcResultLogin;
     }
+
     MvcResult mvcPerformControllerApiCall(String url, String token, Object object, ResultMatcher resultMatcher) throws Exception {
         return mvc.perform(MockMvcRequestBuilders
                         .post(url)
