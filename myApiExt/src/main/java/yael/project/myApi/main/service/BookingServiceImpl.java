@@ -47,28 +47,29 @@ public class BookingServiceImpl implements BookingService {
         if (showtime.getCurrentBookedSeats() == maxSeats) {
             throw new RuntimeException("No available seats left for this showtime.");
         }
+        synchronized (this) {
+            Booking booking = new Booking();
+            booking.setUser(bookingRequest.getUser());
+            booking.setMovie(showtime.getMovie());
+            booking.setShowtime(showtime);
+            booking.setSeatNumber(bookingRequest.getSeatNumber());
+            booking.setPrice(showtime.getPrice());
 
-        Booking booking = new Booking();
-        booking.setUser(bookingRequest.getUser());
-        booking.setMovie(showtime.getMovie());
-        booking.setShowtime(showtime);
-        booking.setSeatNumber(bookingRequest.getSeatNumber());
-        booking.setPrice(showtime.getPrice());
+            //we save this seat for this showtime
+            Seat seat = new Seat();
+            seat.setBooked(true);
+            seat.setShowtime(showtime);
+            seat.setSeatNumber(bookingRequest.getSeatNumber());
+            seatRepository.save(seat);
 
-        //we save this seat for this showtime
-        Seat seat = new Seat();
-        seat.setBooked(true);
-        seat.setShowtime(showtime);
-        seat.setSeatNumber(bookingRequest.getSeatNumber());
-        seatRepository.save(seat);
+            //we increment booked seats for this showtime by 1.
+            Showtime showtimeToUpdate = showtimeRepository.getOne(showtime.getId());
+            showtimeToUpdate.setCurrentBookedSeats(showtime.getCurrentBookedSeats() + 1);
+            showtimeRepository.save(showtimeToUpdate);
 
-        //we increment booked seats for this showtime by 1.
-        Showtime showtimeToUpdate = showtimeRepository.getOne(showtime.getId());
-        showtimeToUpdate.setCurrentBookedSeats(showtime.getCurrentBookedSeats() + 1);
-        showtimeRepository.save(showtimeToUpdate);
-
-        //booking is saved
-        bookingRepository.save(booking);
+            //booking is saved
+            bookingRepository.save(booking);
+        }
     }
 
     public List<Booking> getAllBookings() {
