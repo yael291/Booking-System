@@ -32,7 +32,7 @@ public class BookingServiceImpl implements BookingService {
     @Value("${max.seats}")
     private Integer maxSeats;
 
-    public synchronized void bookTicket(BookingRequest bookingRequest) {
+    public void bookTicket(BookingRequest bookingRequest) {
         Optional<Showtime> showtimeOptional = showtimeRepository.findById(bookingRequest.getShowtimeId());
         if (showtimeOptional.isEmpty()) {
             throw new IllegalArgumentException("Showtime not found.");
@@ -60,12 +60,12 @@ public class BookingServiceImpl implements BookingService {
             seat.setShowtime(showtime);
             seat.setSeatNumber(bookingRequest.getSeatNumber());
             seatRepository.save(seat);
-
-            //we increment booked seats for this showtime by 1.
-            Showtime showtimeToUpdate = showtimeRepository.getOne(showtime.getId());
-            showtimeToUpdate.setCurrentBookedSeats(showtime.getCurrentBookedSeats() + 1);
-            showtimeRepository.save(showtimeToUpdate);
-
+            synchronized (this) {
+                //we increment booked seats for this showtime by 1.
+                Showtime showtimeToUpdate = showtimeRepository.getOne(showtime.getId());
+                showtimeToUpdate.setCurrentBookedSeats(showtime.getCurrentBookedSeats() + 1);
+                showtimeRepository.save(showtimeToUpdate);
+            }
             //booking is saved
             bookingRepository.save(booking);
     }
