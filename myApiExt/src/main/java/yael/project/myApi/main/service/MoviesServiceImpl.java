@@ -43,7 +43,6 @@ public class MoviesServiceImpl implements MoviesService {
         if (!movieOptional.isPresent()) {
             throw new ResourceNotFoundException("Movie not found with id " + id);
         } else {
-
             Movie movie = movieOptional.get();
             movie.setTitle(movieDetails.getTitle());
             movie.setGenre(movieDetails.getGenre());

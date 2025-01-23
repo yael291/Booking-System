@@ -47,8 +47,6 @@ public class ShowtimeServiceImpl implements ShowtimeService {
             updatedShowtime.setTheater(showtime.getTheater());
             //if we changed start time or end time of an existing showtime, we must check overlap with other showtines
             if (!showtime.getStartTime().equals(existingShowtime.get().getStartTime()) || !showtime.getEndTime().equals(existingShowtime.get().getEndTime())) {
-                //  updatedShowtime.setStartTime(showtime.getStartTime());
-                //  updatedShowtime.setEndTime(showtime.getEndTime());
                 boolean hasOverlap = showtimeRepository.existsOverlappingShowtime(
                         showtime.getTheater(),
                         showtime.getStartTime(),

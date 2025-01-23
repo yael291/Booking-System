@@ -265,8 +265,6 @@ u
 EmyApiExt/src/main/java/yael/project/myApi/main/dto/LoginResponse.java,f\7\f7cbad37725a3044a571e55df234fba7c9d9b5fa
 o
 ?myApiExt/src/main/java/yael/project/myApi/main/model/Movie.java,8\5\85b5fd1f9bd32679d6f0a2e5a1b683e946d346b5
-x
-HmyApiExt/src/main/java/yael/project/myApi/main/dao/MoviesRepository.java,f\9\f9d2e650a7ee413bdb81afae57eb655b37cee0ff
 t
 DmyApiExt/src/main/java/yael/project/myApi/main/MyApiApplication.java,4\0\40fc74805fd35406fde9817d5c960d47413ba5e7
 ‡
@@ -277,8 +275,6 @@ v
 FmyApiExt/src/main/java/yael/project/myApi/main/dao/SeatRepository.java,7\1\71f81492f0d8ffc25a90763f19c171bc8c0b707d
 z
 JmyApiExt/src/main/java/yael/project/myApi/main/dao/ShowtimeRepository.java,1\a\1afe3d57c814c2841bea518b556e604507ccf70d
-{
-KmyApiExt/src/main/java/yael/project/myApi/main/service/ShowtimeService.java,1\e\1e62bb44a9054ca5781320108a6964e6b3e8fd71
 n
 >myApiExt/src/main/java/yael/project/myApi/main/model/User.java,5\f\5f8df6e4ea6932577204ec48d63521701fca05d3
 {
