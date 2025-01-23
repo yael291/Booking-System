@@ -32,7 +32,7 @@ public class BookingServiceImpl implements BookingService {
     @Value("${max.seats}")
     private Integer maxSeats;
 
-    public void bookTicket(BookingRequest bookingRequest) {
+    public synchronized void bookTicket(BookingRequest bookingRequest) {
         Optional<Showtime> showtimeOptional = showtimeRepository.findById(bookingRequest.getShowtimeId());
         if (showtimeOptional.isEmpty()) {
             throw new IllegalArgumentException("Showtime not found.");
@@ -47,7 +47,6 @@ public class BookingServiceImpl implements BookingService {
         if (showtime.getCurrentBookedSeats() == maxSeats) {
             throw new RuntimeException("No available seats left for this showtime.");
         }
-        synchronized (this) {
             Booking booking = new Booking();
             booking.setUser(bookingRequest.getUser());
             booking.setMovie(showtime.getMovie());
@@ -69,7 +68,6 @@ public class BookingServiceImpl implements BookingService {
 
             //booking is saved
             bookingRepository.save(booking);
-        }
     }
 
     public List<Booking> getAllBookings() {
