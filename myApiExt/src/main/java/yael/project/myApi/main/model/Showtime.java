@@ -37,11 +37,11 @@ public class Showtime {
 
     @Column(name = "PRICE")
     @NotNull
-    private Double price;
+    private volatile Double price;
 
     @Column(name = "CURRENT_BOOKED_SEATS")
     @NotNull
-    private Integer currentBookedSeats;
+    private volatile Integer currentBookedSeats; //can be atomic
 
     public Showtime(Long id, Movie movie, String theater, LocalDateTime startTime, LocalDateTime endTime, Double price, Integer currentBookedSeats) {
         this.id = id;
@@ -55,6 +55,5 @@ public class Showtime {
     public Showtime(){}
 
 }
-
 
 

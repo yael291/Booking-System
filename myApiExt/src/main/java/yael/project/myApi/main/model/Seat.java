@@ -18,7 +18,7 @@ public class Seat {
 
     private Integer seatNumber;
 
-    private boolean isBooked;
+    private volatile boolean isBooked; //can be atomic
 
     @ManyToOne
     @JoinColumn(name = "showtime_id", nullable = false) //showtime contains movie details

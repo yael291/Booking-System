@@ -38,6 +38,16 @@ public class Booking {
 
     @Column(name = "PRICE")
     @NotNull(message = "Price is required")
-    private Double price;
+    private volatile Double price;
 
+    public Booking() {
+    }
+
+    public Booking(User user, Showtime showtime, Movie movie, Integer seatNumber, Double price) {
+        this.user = user;
+        this.showtime = showtime;
+        this.movie = movie;
+        this.seatNumber = seatNumber;
+        this.price = price;
+    }
 }

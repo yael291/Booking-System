@@ -37,37 +37,29 @@ public class BookingServiceImpl implements BookingService {
         if (showtimeOptional.isEmpty()) {
             throw new IllegalArgumentException("Showtime not found.");
         }
-
         Showtime showtime = showtimeOptional.get();
 
         if (seatRepository.isSeatBooked(bookingRequest.getSeatNumber(), bookingRequest.getShowtimeId())) {
             throw new IllegalArgumentException("Seat is already booked for this showtime.");
         }
-
         if (showtime.getCurrentBookedSeats() == maxSeats) {
             throw new RuntimeException("No available seats left for this showtime.");
         }
-            Booking booking = new Booking();
-            booking.setUser(bookingRequest.getUser());
-            booking.setMovie(showtime.getMovie());
-            booking.setShowtime(showtime);
-            booking.setSeatNumber(bookingRequest.getSeatNumber());
-            booking.setPrice(showtime.getPrice());
-
-            //we save this seat for this showtime
-            Seat seat = new Seat();
+        Booking booking = new Booking(bookingRequest.getUser(), showtime, showtime.getMovie(), bookingRequest.getSeatNumber(), showtime.getPrice());
+        //we create a seat for this showtime
+        Seat seat = new Seat();
+        seat.setShowtime(showtime);
+        seat.setSeatNumber(bookingRequest.getSeatNumber());
+        Showtime showtimeToUpdate = showtimeRepository.getOne(showtime.getId());
+        //we book seat, and we increment booked seats for this showtime by 1(Atomic integer can also be used)
+        synchronized (this) {
             seat.setBooked(true);
-            seat.setShowtime(showtime);
-            seat.setSeatNumber(bookingRequest.getSeatNumber());
-            seatRepository.save(seat);
-            synchronized (this) {
-                //we increment booked seats for this showtime by 1.
-                Showtime showtimeToUpdate = showtimeRepository.getOne(showtime.getId());
-                showtimeToUpdate.setCurrentBookedSeats(showtime.getCurrentBookedSeats() + 1);
-                showtimeRepository.save(showtimeToUpdate);
-            }
-            //booking is saved
-            bookingRepository.save(booking);
+            showtimeToUpdate.setCurrentBookedSeats(showtime.getCurrentBookedSeats() + 1);
+        }
+        seatRepository.save(seat);
+        showtimeRepository.save(showtimeToUpdate);
+        //booking is saved
+        bookingRepository.save(booking);
     }
 
     public List<Booking> getAllBookings() {

@@ -41,7 +41,7 @@ public class Movie {
     @Column(name = "DURATION")
     @NotNull(message = "Duration is required")
     @Min(value = 0, message = "Duration must be greater than or equal to 1")
-    private Double duration;
+    private volatile Double duration;
 
     @Column(name = "RELEASE_YEAR")
     @NotNull(message = "Release year is required")
