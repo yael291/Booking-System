@@ -51,7 +51,7 @@ public class BookingServiceImpl implements BookingService {
         seat.setShowtime(showtime);
         seat.setSeatNumber(bookingRequest.getSeatNumber());
         Showtime showtimeToUpdate = showtimeRepository.getOne(showtime.getId());
-        //we book seat, and we increment booked seats for this showtime by 1(Atomic integer can also be used)
+        //we book this seat, and we increment booked seats for this showtime by 1
         synchronized (this) {
             seat.setBooked(true);
             showtimeToUpdate.setCurrentBookedSeats(showtime.getCurrentBookedSeats() + 1);
